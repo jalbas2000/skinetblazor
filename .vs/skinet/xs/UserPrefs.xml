@@ -3,20 +3,7 @@
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="skinet" expanded="True">
-            <Node name="API" expanded="True">
-              <Node name="Controllers" expanded="True" />
-              <Node name="Dtos" expanded="True" />
-              <Node name="Helpers" expanded="True" />
-            </Node>
-            <Node name="web" expanded="True">
-              <Node name="Dtos" expanded="True" />
-              <Node name="Helpers" expanded="True" />
-              <Node name="Pages" expanded="True">
-                <Node name="Index.razor" selected="True" />
-              </Node>
-            </Node>
-          </Node>
+          <Node name="skinet" expanded="True" />
         </State>
       </Pad>
     </Pads>

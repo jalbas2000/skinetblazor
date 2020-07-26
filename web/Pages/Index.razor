@@ -1,33 +1,8 @@
 ﻿@page "/"
 
-@using web.HttpRepositories
-@using web.Helpers
-@using web.Models
-
-@inject IProductHttpRepository productRepo
-
-<h1> Welcome to SkiNet</h1>
-
-@if (productPagination == null)
-{
-    <p>No Products Items found.</p>
-}
-else
-{
-    @foreach (var product in productPagination.Data)
-    {
-        <p>@product.Name</p>
-    }
-}
+<web.Components.Shop.Shop></web.Components.Shop.Shop>
 
 @code {
-
-    private Pagination<ProductToReturnDto> productPagination;
-
-    protected override async Task OnInitializedAsync()
-    {
-        productPagination = await productRepo.GetProducts();
-    }
 
 }
 

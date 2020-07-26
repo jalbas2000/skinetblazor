@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace web.Helpers
 {
@@ -20,5 +21,10 @@ namespace web.Helpers
         public int PageSize { get; set; }
         public int Count { get; set; }
         public IReadOnlyList<T> Data { get; set; }
+
+        public int TotalPages => (int)Math.Ceiling(Count / (double)PageSize);
+
+        public bool HasPrevious => PageIndex > 1;
+        public bool HasNext => PageIndex < TotalPages;
     }
 }

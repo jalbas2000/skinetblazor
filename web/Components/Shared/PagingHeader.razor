@@ -1,0 +1,29 @@
+﻿@using web.Helpers
+@using web.Models
+
+<header>
+    @if (MetaData.TotalCount > 0)
+    {
+        <span>
+            Showing
+            <strong>
+                @((shopParams.pageNumber - 1) * shopParams.pageSize+1) -
+                @((shopParams.pageNumber * shopParams.pageSize) > MetaData.TotalCount ? MetaData.TotalCount : (shopParams.pageNumber * shopParams.pageSize))
+            </strong> of
+            <strong>@MetaData.TotalCount</strong> Results
+        </span>
+    }
+    else if (MetaData.TotalCount == 0)
+    {
+        <span>There are <strong>0</strong> results for this filter</span>
+    }
+</header>
+
+@code {
+    [Parameter]
+    public ShopParams shopParams { get; set; }
+
+    [Parameter]
+    public MetaData MetaData { get; set; }
+
+}

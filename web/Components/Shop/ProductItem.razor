@@ -1,0 +1,31 @@
+﻿@using web.Models
+
+<style>
+    .card .btn-group {
+        width:100%;
+    }
+    .card .btn {
+        width: 50%;
+    }
+</style>
+
+<div class="col-md-4 mb-4">
+    <div class="card h-100 shadow-sm">
+        <img src="@product.PictureUrl" alt="@product.Name" class="img-fluid bg-info" />
+        <div class="card-body d-flex flex-column">
+            <a href="#">
+                <h6 class="text-uppercase">@product.Name</h6>
+            </a>
+            <span class="mb-2">@string.Format("{0:C}", product.Price)</span>
+            <div class="btn-group mt-auto">
+                <button type="button" class="btn btn-outline-secondary fa fa-shopping-cart mr-2"></button>
+                <button type="button" class="btn btn-outline-secondary">View</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Product  product { get; set; }
+}

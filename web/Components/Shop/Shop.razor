@@ -1,0 +1,171 @@
+﻿@using web.HttpRepositories
+@using web.Models
+@using System.Collections.Generic
+@using web.Helpers
+@inject IProductHttpRepository productRepo
+
+<div class="container">
+    <div class="row">
+        <section class="col-3">
+            <h5 class="text-warning ml-3">Sort</h5>
+            <select class="custom-select mb-3" @onchange="onSortSelected">
+                @foreach (var sortOption in sortOptions)
+                {
+                    <option value="@sortOption.Value">@sortOption.Key</option>
+                }
+            </select>
+            <h5 class="text-warning ml-3">Brands</h5>
+            @if (productBrands != null)
+            {
+                <ul class="list-group my-3">
+                    <li @onclick="(() => onBrandSelected(0))" class="@((shopParams.brandId == 0) ? "list-group-item active" : "list-group-item")">All</li>
+                    @foreach (var brand in productBrands)
+                    {
+                        <li @onclick="(() => onBrandSelected(brand.Id))" class="@((brand.Id == shopParams.brandId) ? "list-group-item active" : "list-group-item")">@brand.Name</li>
+                    }
+                </ul>
+            }
+            <h5 class="text-warning ml-3">Types</h5>
+            @if (productTypes != null)
+            {
+                <ul class="list-group my-3">
+                    <li @onclick="(() => onTypeSelected(0))" class="@((shopParams.typeId == 0) ? "list-group-item active" : "list-group-item")">All</li>
+                    @foreach (var type in productTypes)
+                    {
+                        <li @onclick="(() => onTypeSelected(type.Id))" class="@((type.Id == shopParams.typeId) ? "list-group-item active" : "list-group-item")">@type.Name</li>
+                    }
+                </ul>
+            }
+        </section>
+        <section class="col-9">
+            <div class="d-flex justify-content-between align-items-center pb-2">
+                <web.Components.Shared.PagingHeader MetaData="MetaData" shopParams="shopParams"></web.Components.Shared.PagingHeader>
+                <div class="form-inline mt-2">
+                    <input @bind="shopParams.search" @onkeyup="onSearch" @bind:event="oninput" class="form-control mr-2" style="width:300px" type="text" placeholder="Search..." />
+                    <button @onclick="onSearchSubmit" type="button" class="btn btn-outline-primary my-2">Search</button>
+                    <button @onclick="onReset" type="button" class="btn btn-outline-success my-2 ml-2">Reset</button>
+                </div>
+            </div>
+
+            <div class="row">
+                @if (products == null)
+                {
+                    <p>Loading Products.</p>
+                }
+                else
+                {
+                    @foreach (var product in products)
+                    {
+                        <ProductItem product="product"></ProductItem>
+                    }
+                }
+            </div>
+            @if (MetaData.TotalCount > 0)
+            {
+                <div class="row">
+                    <div class="col">
+                        <web.Components.Shared.Pagination MetaData="MetaData" Spread="2" SelectedPage="SelectedPage" />
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+</div>
+
+
+
+@code {
+
+    private IReadOnlyList<Product> products;
+    public MetaData MetaData { get; set; } = new MetaData();
+    private IReadOnlyList<ProductBrand> productBrands;
+    private IReadOnlyList<ProductType> productTypes;
+    private ShopParams shopParams = new ShopParams();
+    private Dictionary<string, string> sortOptions = new Dictionary<string, string>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        sortOptions.Add("Alphabetical", "name");
+        sortOptions.Add("Price: Low to High", "priceAsc");
+        sortOptions.Add("Price: High to Low", "priceDesc");
+        await GetProducts();
+        await GetProductBrands();
+        await GetProductTypes();
+    }
+
+    private async Task GetProducts()
+    {
+        var pagination = await productRepo.GetProducts(shopParams);
+        products = pagination.Data;
+        MetaData = new MetaData
+        {
+            CurrentPage = pagination.PageIndex,
+            TotalCount = pagination.Count,
+            PageSize = pagination.PageSize,
+            TotalPages = pagination.TotalPages
+        };
+    }
+
+    private async Task GetProductBrands()
+    {
+        productBrands = await productRepo.GetProductBrands();
+    }
+
+    private async Task GetProductTypes()
+    {
+        productTypes = await productRepo.GetProductTypes();
+    }
+
+    private async Task onBrandSelected(int brandId)
+    {
+        shopParams.brandId = brandId;
+        shopParams.pageNumber = 1;
+        await GetProducts();
+    }
+
+    private async Task onTypeSelected(int typeId)
+    {
+        shopParams.typeId = typeId;
+        shopParams.pageNumber = 1;
+        await GetProducts();
+    }
+
+    private async Task onSortSelected(ChangeEventArgs eventArgs)
+    {
+        shopParams.sort = eventArgs.Value.ToString();
+        shopParams.pageNumber = 1;
+        await GetProducts();
+    }
+
+    private async Task SelectedPage(int page)
+    {
+        shopParams.pageNumber = page;
+        await GetProducts();
+    }
+
+    private async Task onSearch(KeyboardEventArgs eventArgs)
+    {
+        if (eventArgs.Key == "Enter")
+        {
+            shopParams.pageNumber = 1;
+            await GetProducts();
+        }
+    }
+
+    private async Task onSearchSubmit()
+    {
+        if(!string.IsNullOrEmpty(shopParams.search))
+        {
+            shopParams.pageNumber = 1;
+            await GetProducts();
+        }
+    }
+
+    private async Task onReset()
+    {
+        shopParams = new ShopParams();
+        await GetProducts();
+    }
+
+}

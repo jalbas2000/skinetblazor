@@ -6,9 +6,11 @@
         <State name="__root__">
           <Node name="web" expanded="True">
             <Node name="web" expanded="True">
-              <Node name="HttpRepositories" expanded="True" />
-              <Node name="Pages" expanded="True">
-                <Node name="Index.razor" selected="True" />
+              <Node name="Components" expanded="True">
+                <Node name="Shared" expanded="True" />
+              </Node>
+              <Node name="Shared" expanded="True">
+                <Node name="MainLayout.razor" selected="True" />
               </Node>
             </Node>
           </Node>
