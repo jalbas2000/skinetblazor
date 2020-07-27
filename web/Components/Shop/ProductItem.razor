@@ -1,9 +1,12 @@
 ﻿@using web.Models
+@inject NavigationManager NavigationManager
 
 <style>
+
     .card .btn-group {
-        width:100%;
+        width: 100%;
     }
+
     .card .btn {
         width: 50%;
     }
@@ -13,13 +16,13 @@
     <div class="card h-100 shadow-sm">
         <img src="@product.PictureUrl" alt="@product.Name" class="img-fluid bg-info" />
         <div class="card-body d-flex flex-column">
-            <a href="#">
+            <a href="/shop/@product.Id">
                 <h6 class="text-uppercase">@product.Name</h6>
             </a>
             <span class="mb-2">@string.Format("{0:C}", product.Price)</span>
             <div class="btn-group mt-auto">
                 <button type="button" class="btn btn-outline-secondary fa fa-shopping-cart mr-2"></button>
-                <button type="button" class="btn btn-outline-secondary">View</button>
+                <button @onclick="NavigateToProductDetails" type="button" class="btn btn-outline-secondary">View</button>
             </div>
         </div>
     </div>
@@ -27,5 +30,10 @@
 
 @code {
     [Parameter]
-    public Product  product { get; set; }
+    public Product product { get; set; }
+
+    private void NavigateToProductDetails()
+    {
+        NavigationManager.NavigateTo($"shop/{product.Id}");
+    }
 }

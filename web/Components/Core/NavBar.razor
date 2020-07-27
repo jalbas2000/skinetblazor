@@ -11,13 +11,21 @@
         top: -12px;
         right: 32px;
     }
+   nav a {
+       text-decoration: none;
+       color: #343a30;
+
+   }
+   nav a.active {
+       color: orange!important;
+   }
 </style>
 <div class="d-flex flex-column flex-md-row align-items-center justify-content-between p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm fixed-top">
-    <img src="/assets/images/logo.png" style="max-height:70px" alt="logo" />
+    <a href="/"><img src="/assets/images/logo.png" style="max-height:70px" alt="logo" /></a>
     <nav class="my-2 my-md-0 mr-md-3 text-uppercase" style="font-size:larger">
-        <a class="p-2 text-dark" href="/">Home</a>
-        <a class="p-2 text-dark" href="#">Shop</a>
-        <a class="p-2 text-dark" href="#">Contact</a>
+        <NavLink class="p-2 text-dark" href="" Match="NavLinkMatch.All">Home</NavLink>
+        <NavLink class="p-2 text-dark" href="shop" Match="NavLinkMatch.All">Shop</NavLink>
+        <NavLink class="p-2 text-dark" href="#">Contact</NavLink>
     </nav>
     <div class="d-flex align-items-center">
         <a class="position-relative" href="#">

@@ -56,6 +56,18 @@ namespace web.HttpRepositories
             return products;
         }
 
+        public async Task<Product> GetProduct(int id)
+        {
+            var response = await _client.GetAsync($"{apiUrl}/products/{id}");
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ApplicationException(content);
+            }
+            return JsonSerializer.Deserialize<Product>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+        }
+
         public async Task<IReadOnlyList<ProductBrand>> GetProductBrands()
         {
             var response = await _client.GetAsync($"{apiUrl}/products/brands");

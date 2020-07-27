@@ -9,6 +9,7 @@ namespace web.HttpRepositories
     public interface IProductHttpRepository
     {
         Task<Pagination<Product>> GetProducts(ShopParams shopParams);
+        Task<Product> GetProduct(int id);
         Task<IReadOnlyList<ProductBrand>> GetProductBrands();
         Task<IReadOnlyList<ProductType>> GetProductTypes();
     }
