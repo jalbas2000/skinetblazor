@@ -1,0 +1,33 @@
+@inject web.Services.IErrorService errorService
+@inject IToastService toastService
+
+<div class="container mt-5">
+    <button @onclick="Get500Error" class="btn btn-outline-primary mr-3">Test 500 Error</button>
+    <button @onclick="Get404Error" class="btn btn-outline-primary mr-3">Test 404 Error</button>
+    <button @onclick="Get400Error" class="btn btn-outline-primary mr-3">Test 400 Error</button>
+    <button @onclick="Get400ValidationError" class="btn btn-outline-primary mr-3">Test 400 Validation Error</button>
+</div>
+
+@code {
+
+    private async Task Get500Error()
+    {
+        await errorService.Get500Error();
+        toastService.ShowError("Internal Server Error");
+    }
+
+    private async Task Get404Error()
+    {
+        await errorService.Get404Error();
+        toastService.ShowError("Not Found");
+    }
+
+    private async Task Get400Error()
+    {
+        await errorService.Get400Error();
+    }
+    private async Task Get400ValidationError()
+    {
+        await errorService.Get400ValidationError();
+    }
+}
