@@ -5,32 +5,33 @@
 
 @if (product == null)
 {
-    <h3>Product Details Loading</h3>
+    <Pulse />
 }
 else
 {
-    <div class="row">
-        <div class="col-6">
-            <img src="@product.PictureUrl" alt="@product.Name" class="img-fluid w-100" />
-        </div>
-        <div class="col-6">
-            <h3>@product.Name</h3>
-            <p>@string.Format("{0:C}", product.Price)</p>
-            <div class="d-flex justify-content-start align-items-center">
-                <i class="fa fa-minus-circle text-warning mr-2" style="cursor: pointer; font-size: 2em;"></i>
-                <span class="font-weight-bold" style="font-size:1.5em;">2</span>
-                <i class="fa fa-plus-circle text-warning mx-2" style="cursor: pointer; font-size: 2em;"></i>
-                <button type="button" class="btn btn-outline-secondary btn-lg ml-4">Add to Cart</button>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-6">
+                <img src="@product.PictureUrl" alt="@product.Name" class="img-fluid w-100" />
             </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col-12 ml-3">
-                <h4>Description</h4>
-                <p>@product.Description</p>
+            <div class="col-6">
+                <h3>@product.Name</h3>
+                <p style="font-size: 2em;">@string.Format("{0:C}", product.Price)</p>
+                <div class="d-flex justify-content-start align-items-center">
+                    <i class="fa fa-minus-circle text-warning mr-2" style="cursor: pointer; font-size: 2em;"></i>
+                    <span class="font-weight-bold" style="font-size:1.5em;">2</span>
+                    <i class="fa fa-plus-circle text-warning mx-2" style="cursor: pointer; font-size: 2em;"></i>
+                    <button type="button" class="btn btn-outline-secondary btn-lg ml-4">Add to Cart</button>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-12 ml-3">
+                    <h4>Description</h4>
+                    <p>@product.Description</p>
+                </div>
             </div>
         </div>
     </div>
-    
 }
 
 

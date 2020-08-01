@@ -1,6 +1,31 @@
 ﻿@page "/"
 
-<h3>Home Works</h3>
+<style type="text/css">
+    .featured {
+        height: 250px;
+    }
+    .carousel-inner img {
+        object-fit: cover;
+        height: 600px;
+        width: 100%;
+    }
+</style>
+
+<BSCarousel NumberOfItems="3">
+    <BSCarouselIndicators NumberOfItems="3" />
+    <div class="carousel-inner">
+        <BSCarouselItem src="assets/images/hero1.jpg" alt="first slide" />
+        <BSCarouselItem src="assets/images/hero2.jpg" alt="second slide" />
+        <BSCarouselItem src="assets/images/hero3.jpg" alt="third slide" />
+    </div>
+    <BSCarouselControl CarouselDirection="CarouselDirection.Previous" NumberOfItems="3" />
+    <BSCarouselControl CarouselDirection="CarouselDirection.Next" NumberOfItems="3" />
+</BSCarousel>
+<section class="featured">
+    <div class="d-flex justify-content-center pt-4">
+        <h1>Welcome to the Shop!</h1>
+    </div>
+</section>
 
 @code {
 

@@ -21,6 +21,7 @@ namespace web.HttpRepositories
 
         public async Task<Pagination<Product>> GetProducts(ShopParams shopParams)
         {
+            await Task.Delay(1000);
             var queryStringParam = new Dictionary<string, string>();
             if(shopParams.brandId > 0)
             {
@@ -58,6 +59,7 @@ namespace web.HttpRepositories
 
         public async Task<Product> GetProduct(int id)
         {
+            await Task.Delay(1000);
             var response = await _client.GetAsync($"{apiUrl}/products/{id}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
@@ -70,6 +72,7 @@ namespace web.HttpRepositories
 
         public async Task<IReadOnlyList<ProductBrand>> GetProductBrands()
         {
+            await Task.Delay(1000);
             var response = await _client.GetAsync($"{apiUrl}/products/brands");
             var content = await response.Content.ReadAsStringAsync();
 
@@ -85,6 +88,7 @@ namespace web.HttpRepositories
 
         public async Task<IReadOnlyList<ProductType>> GetProductTypes()
         {
+            await Task.Delay(1000);
             var response = await _client.GetAsync($"{apiUrl}/products/types");
             var content = await response.Content.ReadAsStringAsync();
 

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using web.HttpRepositories;
 using web.Services;
+using BlazorStrap;
 
 namespace web
 {
@@ -17,6 +18,8 @@ namespace web
             builder.RootComponents.Add<App>("app");
 
             builder.Services.AddBlazoredToast();
+
+            builder.Services.AddBootstrapCss();
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 

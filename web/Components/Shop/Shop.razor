@@ -4,53 +4,58 @@
 @using web.Helpers
 @inject IProductHttpRepository productRepo
 
-<div class="container">
+<div class="container mt-3">
     <div class="row">
         <section class="col-3">
-            <h5 class="text-warning ml-3">Sort</h5>
-            <select class="custom-select mb-3" @onchange="onSortSelected">
-                @foreach (var sortOption in sortOptions)
+            @if ((productBrands != null) && (productTypes != null))
+            { 
+                <h5 class="text-warning ml-3 mt-4 mb-3">Sort</h5>
+                <select class="custom-select mb-4" @onchange="onSortSelected">
+                    @foreach (var sortOption in sortOptions)
+                    {
+                        <option value="@sortOption.Value">@sortOption.Key</option>
+                    }
+                </select>
+                <h5 class="text-warning ml-3">Brands</h5>
+                @if (productBrands != null)
                 {
-                    <option value="@sortOption.Value">@sortOption.Key</option>
+                    <ul class="list-group my-3">
+                        <li @onclick="(() => onBrandSelected(0))" class="@((shopParams.brandId == 0) ? "list-group-item active" : "list-group-item")">All</li>
+                        @foreach (var brand in productBrands)
+                        {
+                            <li @onclick="(() => onBrandSelected(brand.Id))" class="@((brand.Id == shopParams.brandId) ? "list-group-item active" : "list-group-item")">@brand.Name</li>
+                        }
+                    </ul>
                 }
-            </select>
-            <h5 class="text-warning ml-3">Brands</h5>
-            @if (productBrands != null)
-            {
-                <ul class="list-group my-3">
-                    <li @onclick="(() => onBrandSelected(0))" class="@((shopParams.brandId == 0) ? "list-group-item active" : "list-group-item")">All</li>
-                    @foreach (var brand in productBrands)
-                    {
-                        <li @onclick="(() => onBrandSelected(brand.Id))" class="@((brand.Id == shopParams.brandId) ? "list-group-item active" : "list-group-item")">@brand.Name</li>
-                    }
-                </ul>
-            }
-            <h5 class="text-warning ml-3">Types</h5>
-            @if (productTypes != null)
-            {
-                <ul class="list-group my-3">
-                    <li @onclick="(() => onTypeSelected(0))" class="@((shopParams.typeId == 0) ? "list-group-item active" : "list-group-item")">All</li>
-                    @foreach (var type in productTypes)
-                    {
-                        <li @onclick="(() => onTypeSelected(type.Id))" class="@((type.Id == shopParams.typeId) ? "list-group-item active" : "list-group-item")">@type.Name</li>
-                    }
-                </ul>
+                <h5 class="text-warning ml-3">Types</h5>
+                @if (productTypes != null)
+                {
+                    <ul class="list-group my-3">
+                        <li @onclick="(() => onTypeSelected(0))" class="@((shopParams.typeId == 0) ? "list-group-item active" : "list-group-item")">All</li>
+                        @foreach (var type in productTypes)
+                        {
+                            <li @onclick="(() => onTypeSelected(type.Id))" class="@((type.Id == shopParams.typeId) ? "list-group-item active" : "list-group-item")">@type.Name</li>
+                        }
+                    </ul>
+                }
             }
         </section>
         <section class="col-9">
-            <div class="d-flex justify-content-between align-items-center pb-2">
-                <web.Components.Shared.PagingHeader MetaData="MetaData" shopParams="shopParams"></web.Components.Shared.PagingHeader>
-                <div class="form-inline mt-2">
-                    <input @bind="shopParams.search" @onkeyup="onSearch" @bind:event="oninput" class="form-control mr-2" style="width:300px" type="text" placeholder="Search..." />
-                    <button @onclick="onSearchSubmit" type="button" class="btn btn-outline-primary my-2">Search</button>
-                    <button @onclick="onReset" type="button" class="btn btn-outline-success my-2 ml-2">Reset</button>
+            @if (products != null)
+            {
+                <div class="d-flex justify-content-between align-items-center pb-2">
+                    <web.Components.Shared.PagingHeader MetaData="MetaData" shopParams="shopParams"></web.Components.Shared.PagingHeader>
+                    <div class="form-inline">
+                        <input @bind="shopParams.search" @onkeyup="onSearch" @bind:event="oninput" class="form-control mr-2" style="width:300px" type="text" placeholder="Search..." />
+                        <button @onclick="onSearchSubmit" type="button" class="btn btn-outline-primary my-2">Search</button>
+                        <button @onclick="onReset" type="button" class="btn btn-outline-success my-2 ml-2">Reset</button>
+                    </div>
                 </div>
-            </div>
-
+            }
             <div class="row">
                 @if (products == null)
                 {
-                    <p>Loading Products.</p>
+                    <Pulse />
                 }
                 else
                 {
